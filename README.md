@@ -21,6 +21,14 @@ Firebase Console থেকে তুমি যখন project বানাও আ
 
 একবার initialize হয়ে গেলে তুমি FirebaseAuth.getInstance(), FirebaseFirestore.getInstance() ইত্যাদি Firebase services ব্যবহার করতে পারো।
 
+নোট:
+
+অনেক সময় google-services plugin + Gradle setup থাকলে Firebase নিজে থেকেই initialize হয়ে যায়।
+
+কিন্তু কিছু ক্ষেত্রে (বিশেষ করে custom setup বা multi-module project এ) manual initialization দরকার হয়।
+
+👉 তাই এই লাইনটা basically Firebase কে তোমার app এ চালু করার জন্য দরকার।
+
 Just ADD this dependencies 
 
 dependencies {
