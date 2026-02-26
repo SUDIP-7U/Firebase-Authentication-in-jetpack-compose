@@ -1,13 +1,25 @@
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         //Use this line for firebase access
+        
         FirebaseApp.initializeApp(this)
         setContent {
             AuthScreen()
         }
     }
+    
+FirebaseApp.initializeApp(this) লাইনটা ব্যবহার করা হয় Firebase SDK কে তোমার Android app এর সাথে initialize করার জন্য।
 
+কেন দরকার?
+Firebase Console থেকে তুমি যখন project বানাও আর google-services.json ফাইল app এ রাখো, তখন Firebase SDK সেই configuration ফাইল পড়ে।
+
+কিন্তু SDK কে জানাতে হয় যে "এই app এখন Firebase এর সাথে connect হবে" — সেটাই করে FirebaseApp.initializeApp(this)।
+
+একবার initialize হয়ে গেলে তুমি FirebaseAuth.getInstance(), FirebaseFirestore.getInstance() ইত্যাদি Firebase services ব্যবহার করতে পারো।
 
 Just ADD this dependencies 
 
