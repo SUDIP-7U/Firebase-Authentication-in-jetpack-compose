@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Use this line for firebase access
+        //Use this line for Firebase SDK কে তোমার Android app এর সাথে initialize করার জন্য।
         
         FirebaseApp.initializeApp(this)
         setContent {
