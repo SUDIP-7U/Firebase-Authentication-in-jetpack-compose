@@ -1,6 +1,17 @@
 
 <img width="280" height="620" alt="Screenshot_20260228_175534" src="https://github.com/user-attachments/assets/beee2a51-b58f-465d-8f7e-42d7938e2c2f" />
 
+
+dependencies {
+
+    implementation(platform(libs.firebase.bom.v3351))
+
+    val navVersion = "2.9.7"
+
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
