@@ -8,7 +8,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,17 +23,27 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         setContent {
-            AuthScreen()
+            val navController = rememberNavController()
+            AppNavHost(navController)
         }
     }
 
 
     @Composable
-    fun AuthScreen() {
+    fun AppNavHost(navController: NavHostController) {
+        NavHost(navController = navController, startDestination = "auth") {
+            composable("auth") { AuthScreen(navController) }
+            composable("home") { HomeScreen() }
+        }
+    }
+
+    @Composable
+    fun AuthScreen(navController: NavController) {
         val auth = FirebaseAuth.getInstance()
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var message by remember { mutableStateOf("") }
+        var isLoading by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -40,36 +56,50 @@ class MainActivity : ComponentActivity() {
             TextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") })
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation()
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        message = if (task.isSuccessful) {
-                            "Login Successful!"
-                        } else {
-                            "Login Failed: ${task.exception?.message}"
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                Button(onClick = {
+                    isLoading = true
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            isLoading = false
+                            if (task.isSuccessful) {
+                                navController.navigate("home") {
+                                    popUpTo("auth") { inclusive = true }
+                                }
+                            } else {
+                                message = "Login Failed: ${task.exception?.message}"
+                            }
                         }
-                    }
-            }) {
-                Text("Login")
-            }
+                }) {
+                    Text("Login")
+                }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Button(onClick = {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        message = if (task.isSuccessful) {
-                            "Registration Successful!"
-                        } else {
-                            "Registration Failed: ${task.exception?.message}"
+                Button(onClick = {
+                    isLoading = true
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            isLoading = false
+                            if (task.isSuccessful) {
+                                navController.navigate("home") {
+                                    popUpTo("auth") { inclusive = true }
+                                }
+                            } else {
+                                message = "Registration Failed: ${task.exception?.message}"
+                            }
                         }
-                    }
-            }) {
-                Text("Register")
+                }) {
+                    Text("Register")
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))

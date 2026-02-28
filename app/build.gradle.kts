@@ -44,6 +44,17 @@ dependencies {
 
     implementation(platform(libs.firebase.bom.v3351))
 
+    val navVersion = "2.9.7"
+
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+
+
+
+
+
+
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
