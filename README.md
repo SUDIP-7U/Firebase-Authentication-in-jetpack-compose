@@ -1,5 +1,5 @@
 
-<img width="1080" height="1920" alt="Screenshot_20260228_175534" src="https://github.com/user-attachments/assets/beee2a51-b58f-465d-8f7e-42d7938e2c2f" />
+<img width="280" height="620" alt="Screenshot_20260228_175534" src="https://github.com/user-attachments/assets/beee2a51-b58f-465d-8f7e-42d7938e2c2f" />
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
